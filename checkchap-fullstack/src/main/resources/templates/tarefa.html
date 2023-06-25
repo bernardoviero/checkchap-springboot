@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TAREFA</title>
+    <script th:inline="javascript">
+        var nomeUrl = "[[${nomeUrl}]]";
+
+        if (nomeUrl) {
+            var url = window.location.href.replace("/tarefa", "");
+            window.history.pushState("", "", url);
+        } else {
+            window.location.href = "/";
+        }
+    </script>
+</head>
+<body>
+<h1>TAREFAS</h1>
+</body>
+</html>
