@@ -16,12 +16,12 @@
 <form th:action="@{/tarefa/{id}(id=${id})}" method="post">
     <input type="hidden" name="_method" value="put" />
     <input type="hidden" name="id" th:value="${id}" />
-    <input type="text" name="titulo" value="" th:value="${tituloTarefa}"  onkeydown="verificarEnter(event)">
+    <input type="text" name="titulo" value="" th:value="${tituloTarefa}" onkeydown="verificarEnter(event)">
 </form>
 <script>
     function verificarEnter(event) {
         if (event.key === "Enter") {
-            event.preventDefault(); // Impede o comportamento padrão da tecla "Enter"
+            event.preventDefault();
 
             const form = event.target.closest("form");
             form.submit();

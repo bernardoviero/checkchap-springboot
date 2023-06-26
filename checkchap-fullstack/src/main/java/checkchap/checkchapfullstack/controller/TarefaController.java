@@ -1,18 +1,16 @@
 package checkchap.checkchapfullstack.controller;
 
+import checkchap.checkchapfullstack.item.Item;
 import checkchap.checkchapfullstack.tarefa.Tarefa;
 import checkchap.checkchapfullstack.tarefa.TarefaRepository;
 import checkchap.checkchapfullstack.url.Url;
 import checkchap.checkchapfullstack.url.UrlRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @Controller
 @RequestMapping(path = "/")
@@ -22,7 +20,6 @@ public class TarefaController {
     private TarefaRepository tarefaRepository;
     @Autowired
     private UrlRepository urlRepository;
-
 
     @GetMapping("/{nome}")
     public String exibirTarefas(@PathVariable("nome") String nome, Model model, HttpSession session) {
