@@ -20,9 +20,9 @@ public class Url {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome_url")
+    @Column(name = "nome")
     private String nome;
 
-    @Column(name = "data_criacao")
-    private Date data_criacao;
+    @Column(name = "dataCriacao")
+    private Date dataCriacao;
 }

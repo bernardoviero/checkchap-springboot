@@ -2,8 +2,8 @@ package checkchap.checkchapfullstack.url;
 
 import java.util.Date;
 
-public record UrlResponseDTO(Long id, String nome_url, Date data_criacao){
+public record UrlResponseDTO(Long id, String nome, Date dataCriacao){
     public UrlResponseDTO(Url url){
-        this(url.getId(), url.getNome(), url.getData_criacao());
+        this(url.getId(), url.getNome(), url.getDataCriacao());
     }
 }
