@@ -1,12 +1,17 @@
 package checkchap.checkchapfullstack.controller;
 
 import checkchap.checkchapfullstack.item.Item;
+import checkchap.checkchapfullstack.item.ItemRepository;
+import checkchap.checkchapfullstack.item.ItemResponseDTO;
 import checkchap.checkchapfullstack.tarefa.Tarefa;
 import checkchap.checkchapfullstack.tarefa.TarefaRepository;
 import checkchap.checkchapfullstack.url.Url;
 import checkchap.checkchapfullstack.url.UrlRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
+import java.util.stream.Collectors;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,15 +25,24 @@ public class TarefaController {
     private TarefaRepository tarefaRepository;
     @Autowired
     private UrlRepository urlRepository;
+    @Autowired
+    private ItemRepository itemRepository;
 
     @GetMapping("/{nome}")
     public String exibirTarefas(@PathVariable("nome") String nome, Model model, HttpSession session) {
         model.addAttribute("nome", nome);
         Url url = urlRepository.findUrlByNome(nome);
         Tarefa tarefa = tarefaRepository.findTarefaByIdUrl(url.getId());
+        
         if (tarefa == null) {
             tarefa = criarTarefa(url.getId());
         }
+        List<ItemResponseDTO> itens = itemRepository.findItemsByTarefaId(tarefa.getId())
+                .stream()
+                .map(ItemResponseDTO::new)
+                .collect(Collectors.toList());
+
+        model.addAttribute("itens", itens);
         model.addAttribute("tituloTarefa", tarefa.getTitulo());
         model.addAttribute("id", tarefa.getId());
         session.setAttribute("url", url);

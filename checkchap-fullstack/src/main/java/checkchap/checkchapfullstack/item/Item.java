@@ -23,7 +23,7 @@ public class Item {
     @Column(name = "item")
     private String item;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idTarefa")
     private Tarefa tarefa;
 

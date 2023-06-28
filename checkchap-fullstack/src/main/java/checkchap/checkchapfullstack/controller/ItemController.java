@@ -2,15 +2,11 @@ package checkchap.checkchapfullstack.controller;
 
 import checkchap.checkchapfullstack.item.Item;
 import checkchap.checkchapfullstack.item.ItemRepository;
-import checkchap.checkchapfullstack.item.ItemResponseDTO;
 import checkchap.checkchapfullstack.tarefa.Tarefa;
 import checkchap.checkchapfullstack.tarefa.TarefaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "/item")
@@ -24,10 +20,12 @@ public class ItemController {
     @PostMapping("/criar/{idTarefa}")
     public String criarItem(@PathVariable("idTarefa") Long idTarefa,@RequestParam("nomeItem") String nomeItem) {
         Tarefa tarefa = tarefaRepository.findTarefaById(idTarefa);
-
         Item item = new Item();
         item.setItem(nomeItem);
+        item.setTarefa(tarefa);
         item.setDataModificacao(new java.util.Date());
+        System.out.println("ID DA TAREFA PARA CRIAR: "+item.getTarefa().getId());
+        System.out.println("ID do item: "+item.getId());
         itemRepository.save(item);
 
         return "redirect:/tarefa/" + tarefa.getUrl().getNome();
@@ -53,15 +51,6 @@ public class ItemController {
 
         Tarefa tarefa = tarefaRepository.findTarefaById(idTarefa);
         return "redirect:/tarefa/" + tarefa.getUrl().getNome();
-    }
-
-    @GetMapping("/visualizar/{idTarefa}")
-    public List<ItemResponseDTO> retornaItens(@PathVariable("idTarefa") Long idTarefa) {
-        List<ItemResponseDTO> item = itemRepository.findItemsByTarefaId(idTarefa)
-                .stream()
-                .map(ItemResponseDTO::new)
-                .collect(Collectors.toList());
-        return item;
     }
 
     @PostMapping("/excluir/{idTarefa}/{idItem}")
