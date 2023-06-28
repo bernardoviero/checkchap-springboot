@@ -19,7 +19,7 @@
     <input type="text" name="titulo" value="" th:value="${tituloTarefa}" onkeydown="verificarEnter(event)">
 </form>
 
-<form th:action="@{/item/criar/{idTarefa}(idTarefa=${id})}" method="post">
+<form id="checklistForm" th:action="@{/item/criar/{idTarefa}(idTarefa=${id})}" method="post">
     <input type="text" name=nomeItem id="checklistItemInput" placeholder="Item 1" onkeyup="verificarEnter(event)">
     <input type="button" id="addItemBtn" style="display: none;">
 </form>
@@ -27,22 +27,14 @@
 <div id="checklistItemsContainer">
     <!-- Iterar sobre os itens e renderizá-los -->
     <div th:each="item : ${itens}" class="checklist-item">
-        <input type="checkbox" name="checklistItem" th:value="${item.item}">
-        <label th:text="${item.item}" data-item-id="${item.id}" class="checklist-label"></label>
-        <button onclick="editarItem(event, this.getAttribute('data-item-id'))" class="edit-button">Editar</button>
+        <input type="checkbox" name="checklistItem" th:value="${item.item}" th:checked="${item.situacao}" th:attr="data-idItem=${item.id}" onchange="enviarRequisicao(this)">
+        <label th:text="${item.item}"></label>
+        <a th:href="@{/item/excluir/{idItem}(idItem=${item.id})}">Excluir</a>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $(".checklist-label").click(function(event) {
-            const itemId = $(this).data("item-id");
-            editarItem(event, itemId);
-        });
-    });
-
-    
+    console.log(item.item)
     function verificarEnter(event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -84,72 +76,30 @@
                     // Acionar o botão de adicionar item
                     const addItemBtn = document.getElementById("addItemBtn");
                     addItemBtn.click();
-                } else {
+                }else{
                     event.preventDefault();
 
+                    const form = event.target.closest("form");
                     form.submit();
                 }
             }
         }
     }
-
-    function editarItem(event, itemId) {
-        const label = event.target;
-        const div = label.parentNode;
-        const input = document.createElement("input");
-        input.type = "text";
-        input.value = label.textContent;
-        input.dataset.itemId = itemId;
-        input.onkeydown = function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                salvarEdicaoItem(input, itemId);
+    function enviarRequisicao(checkbox) {
+        var idItem = checkbox.getAttribute("data-idItem");
+        console.log(idItem)
+        var situacao = checkbox.checked ? 1 : 0;
+    
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/item/alterarSituacao/" + idItem + "?situacao=" + situacao, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // A requisição foi concluída com sucesso
+                console.log("Requisição enviada com sucesso");
             }
         };
-
-        const button = document.createElement("button");
-        button.textContent = "Salvar";
-        button.onclick = function() {
-            salvarEdicaoItem(input, itemId);
-        };
-
-        div.replaceChild(input, label);
-        div.appendChild(button);
-        
-        input.focus();
-        input.select();
-    }
-
-    function salvarEdicaoItem(input, itemId) {
-        const newItemText = input.value.trim();
-        const label = document.createElement("label");
-        label.textContent = newItemText;
-        label.dataset.itemId = itemId;
-
-        // Substituir o campo de entrada e o botão pelo label
-        const div = input.parentNode;
-        div.replaceChild(label, input);
-        div.removeChild(div.lastChild);
-
-        // Realizar a requisição para alterar o nome do item
-        const url = "/item/alterarNome/" + itemId + "/${id}";
-        const formData = new FormData();
-        formData.append("nomeItem", newItemText);
-
-        fetch(url, {
-            method: "POST",
-            body: formData
-        })
-        .then(function(response) {
-            if (response.ok) {
-                console.log("Nome do item alterado com sucesso!");
-            } else {
-                console.error("Erro ao alterar o nome do item.");
-            }
-        })
-        .catch(function(error) {
-            console.error("Erro ao realizar a requisição:", error);
-        });
+        xhr.send();
     }
 </script>
 </body>

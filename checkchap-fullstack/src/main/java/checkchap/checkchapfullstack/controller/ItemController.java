@@ -24,8 +24,6 @@ public class ItemController {
         item.setItem(nomeItem);
         item.setTarefa(tarefa);
         item.setDataModificacao(new java.util.Date());
-        System.out.println("ID DA TAREFA PARA CRIAR: "+item.getTarefa().getId());
-        System.out.println("ID do item: "+item.getId());
         itemRepository.save(item);
 
         return "redirect:/tarefa/" + tarefa.getUrl().getNome();
@@ -42,24 +40,22 @@ public class ItemController {
         return "redirect:/tarefa/" + tarefa.getUrl().getNome();
     }
 
-    @PostMapping("/alterarSituacao/{idTarefa}/{idItem}")
-    public String alterarSituacao(@PathVariable("idTarefa") Long idTarefa, @PathVariable("idItem") Long idItem,@RequestParam("situacao") int situacao) {
+    @PostMapping("/alterarSituacao/{idItem}")
+    public String alterarSituacao(@PathVariable("idItem") Long idItem, @RequestParam("situacao") int situacao) {
         Item item = itemRepository.findItemById(idItem);
+        Tarefa tarefa = tarefaRepository.findTarefaById(item.getTarefa().getId());
         item.setSituacao(situacao);
         item.setDataModificacao(new java.util.Date());
         itemRepository.save(item);
 
-        Tarefa tarefa = tarefaRepository.findTarefaById(idTarefa);
         return "redirect:/tarefa/" + tarefa.getUrl().getNome();
     }
 
-    @PostMapping("/excluir/{idTarefa}/{idItem}")
-    public String excluiItem(@PathVariable("idTarefa") Long idTarefa, @PathVariable("idItem") Long idItem) {
+    @GetMapping("/excluir/{idItem}")
+    public String excluiItem(@PathVariable("idItem") Long idItem) {
         Item item = itemRepository.findItemById(idItem);
-        item.setExcluido(1);
-        itemRepository.save(item);
-
-        Tarefa tarefa = tarefaRepository.findTarefaById(idTarefa);
+        Tarefa tarefa = tarefaRepository.findTarefaById(item.getTarefa().getId());
+        itemRepository.delete(item);
         return "redirect:/tarefa/" + tarefa.getUrl().getNome();
     }
 }
