@@ -31,6 +31,8 @@ public class UrlController {
             url.setNome(nome);
             url.setDataCriacao(new java.util.Date());
             urlRepository.save(url);
+            url = urlRepository.findUrlByNome(nome);
+            System.out.println("pegando o id da url:"+url.getId());
         }
         // passando atributo para acessar pelo arquivo html
         model.addAttribute("url", url);

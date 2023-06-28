@@ -1,5 +1,6 @@
 package checkchap.checkchapfullstack.url;
 
+import checkchap.checkchapfullstack.url.Url;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

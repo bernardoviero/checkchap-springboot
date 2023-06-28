@@ -13,7 +13,7 @@
     </script>
 </head>
 <body>
-<form th:action="@{/tarefa/{id}(id=${id})}" method="post">
+<form th:action="@{{id}(id=${id})}" method="post">
     <input type="hidden" name="_method" value="put" />
     <input type="hidden" name="id" th:value="${id}" />
     <input type="text" name="titulo" value="" th:value="${tituloTarefa}" onkeydown="verificarEnter(event)">

@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(path = "/")
+@RequestMapping(path = "/tarefa")
 public class TarefaController {
 
     @Autowired
@@ -50,7 +50,7 @@ public class TarefaController {
         return tarefa;
     }
 
-    @PostMapping("/tarefa/{id}")
+    @PostMapping("/{id}")
     public String atualizaTitulo(@PathVariable("id") Long id, @RequestParam("titulo") String novoTitulo, Model model) {
         Tarefa tarefa = tarefaRepository.findTarefaById(id);
         tarefa.setTitulo(novoTitulo);
