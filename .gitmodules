@@ -1,0 +1,3 @@
+[submodule "checkchap-fullstack/src/main/resources/templates/checkchap-view"]
+	path = checkchap-fullstack/src/main/resources/templates/checkchap-view
+	url = https://github.com/mauricioprb/checkchap-view.git
