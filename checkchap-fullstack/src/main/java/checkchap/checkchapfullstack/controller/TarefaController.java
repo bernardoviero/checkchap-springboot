@@ -59,14 +59,14 @@ public class TarefaController {
         Tarefa tarefaAtualizada = tarefaRepository.findTarefaById(id);
         model.addAttribute("tituloTarefa", tarefaAtualizada.getTitulo());
 
-        return "redirect:/tarefa/" + tarefa.getUrl().getNome();
+        return "redirect:/checkchap/pages/tarefa/" + tarefa.getUrl().getNome();
     }
 
     @GetMapping("/tarefa/**")
     public String redirecionarTarefa(HttpServletRequest request) {
         String path = request.getRequestURI().substring(request.getContextPath().length());
         String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
-        return "redirect:" + baseUrl + path.replace("/tarefa", "");
+        return "redirect:" + baseUrl + path.replace("/checkchap/pages/tarefa", "");
     }
 
 }

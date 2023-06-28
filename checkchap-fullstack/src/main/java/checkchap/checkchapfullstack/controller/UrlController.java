@@ -38,6 +38,6 @@ public class UrlController {
         model.addAttribute("url", url);
         // Armazena o ID da URL na sessão
         session.setAttribute("urlId", url.getId());
-        return "redirect:/tarefa/" + nome;
+        return "redirect:/checkchap/pages/tarefa/" + nome;
     }
 }
