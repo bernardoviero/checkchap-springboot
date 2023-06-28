@@ -30,7 +30,7 @@ public class ItemController {
         item.setDataModificacao(new java.util.Date());
         itemRepository.save(item);
 
-        return "redirect:/tarefa/" + tarefa.getUrl().getNome();
+        return "redirect:/checkchap/pages/tarefa/" + tarefa.getUrl().getNome();
     }
 
     @PostMapping("/alterarNome/{idTarefa}/{idItem}")
@@ -41,7 +41,7 @@ public class ItemController {
         itemRepository.save(item);
 
         Tarefa tarefa = tarefaRepository.findTarefaById(idTarefa);
-        return "redirect:/tarefa/" + tarefa.getUrl().getNome();
+        return "redirect:/checkchap/pages/tarefa/" + tarefa.getUrl().getNome();
     }
 
     @PostMapping("/alterarSituacao/{idTarefa}/{idItem}")
@@ -52,7 +52,7 @@ public class ItemController {
         itemRepository.save(item);
 
         Tarefa tarefa = tarefaRepository.findTarefaById(idTarefa);
-        return "redirect:/tarefa/" + tarefa.getUrl().getNome();
+        return "redirect:/checkchap/pages/tarefa/" + tarefa.getUrl().getNome();
     }
 
     @GetMapping("/visualizar/{idTarefa}")
@@ -71,6 +71,6 @@ public class ItemController {
         itemRepository.save(item);
 
         Tarefa tarefa = tarefaRepository.findTarefaById(idTarefa);
-        return "redirect:/tarefa/" + tarefa.getUrl().getNome();
+        return "redirect:/checkchap/pages/tarefa/" + tarefa.getUrl().getNome();
     }
 }
