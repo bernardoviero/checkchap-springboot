@@ -1,9 +1,3 @@
-[submodule "checkchap-fullstack/checkchap-springboot"]
-	path = checkchap-fullstack/checkchap-springboot
-	url = https://github.com/bernardoviero/checkchap-springboot.git
-[submodule "checkchap-fullstack/src/main/resources/checkchap-view"]
-	path = checkchap-fullstack/src/main/resources/checkchap-view
-	url = https://github.com/mauricioprb/checkchap-view.git
 [submodule "checkchap-fullstack/src/main/resources/templates/checkchap-view"]
 	path = checkchap-fullstack/src/main/resources/templates/checkchap-view
 	url = https://github.com/mauricioprb/checkchap-view.git
