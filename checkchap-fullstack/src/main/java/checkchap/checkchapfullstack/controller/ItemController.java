@@ -18,7 +18,7 @@ public class ItemController {
     private TarefaRepository tarefaRepository;
 
     @PostMapping("/criar/{idTarefa}")
-    public String criarItem(@PathVariable("idTarefa") Long idTarefa,@RequestParam("nomeItem") String nomeItem) {
+    public String criarItem(@PathVariable("idTarefa") Long idTarefa, @RequestParam("nomeItem") String nomeItem) {
         Tarefa tarefa = tarefaRepository.findTarefaById(idTarefa);
         Item item = new Item();
         item.setItem(nomeItem);
@@ -30,7 +30,8 @@ public class ItemController {
     }
 
     @PostMapping("/alterarNome/{idTarefa}/{idItem}")
-    public String alterarNome(@PathVariable("idItem") Long idItem,@PathVariable("idTarefa") Long idTarefa,@RequestParam("nomeItem") String nomeItem) {
+    public String alterarNome(@PathVariable("idItem") Long idItem, @PathVariable("idTarefa") Long idTarefa,
+            @RequestParam("nomeItem") String nomeItem) {
         Item item = itemRepository.findItemById(idItem);
         item.setItem(nomeItem);
         item.setDataModificacao(new java.util.Date());

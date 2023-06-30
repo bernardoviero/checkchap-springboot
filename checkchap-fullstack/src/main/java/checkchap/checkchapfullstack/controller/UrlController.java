@@ -20,7 +20,7 @@ public class UrlController {
 
     @GetMapping("/")
     public String home() {
-        return "/checkchap-view/pages/index";
+        return "index";
     }
 
     @PostMapping("/url")

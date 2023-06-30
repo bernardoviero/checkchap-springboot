@@ -1,6 +1,5 @@
 package checkchap.checkchapfullstack.controller;
 
-import checkchap.checkchapfullstack.item.Item;
 import checkchap.checkchapfullstack.item.ItemRepository;
 import checkchap.checkchapfullstack.item.ItemResponseDTO;
 import checkchap.checkchapfullstack.tarefa.Tarefa;
@@ -33,7 +32,6 @@ public class TarefaController {
         model.addAttribute("nome", nome);
         Url url = urlRepository.findUrlByNome(nome);
         Tarefa tarefa = tarefaRepository.findTarefaByIdUrl(url.getId());
-        
         if (tarefa == null) {
             tarefa = criarTarefa(url.getId());
         }
@@ -49,15 +47,14 @@ public class TarefaController {
         return "tarefa";
     }
 
-
-    public Tarefa criarTarefa(Long idUrl){
-        // estancia o objeto URL para poder atribuir o relacionamento  com tarefa
+    public Tarefa criarTarefa(Long idUrl) {
+        // estancia o objeto URL para poder atribuir o relacionamento com tarefa
         Url url = new Url();
         url.setId(idUrl);
         // cria a tarefa relacionada com essa URL
         Tarefa tarefa = new Tarefa();
         tarefa.setUrl(url);
-        tarefa.setTitulo("Novo Titulo");
+        tarefa.setTitulo(null);
         tarefa.setDataModificacao(new java.util.Date());
         tarefaRepository.save(tarefa);
 
