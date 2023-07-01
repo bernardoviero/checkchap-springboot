@@ -6,7 +6,6 @@ import checkchap.checkchapfullstack.tarefa.Tarefa;
 import checkchap.checkchapfullstack.tarefa.TarefaRepository;
 import checkchap.checkchapfullstack.url.Url;
 import checkchap.checkchapfullstack.url.UrlRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.stream.Collectors;
@@ -30,21 +29,25 @@ public class TarefaController {
     @GetMapping("/{nome}")
     public String exibirTarefas(@PathVariable("nome") String nome, Model model, HttpSession session) {
         model.addAttribute("nome", nome);
-        Url url = urlRepository.findUrlByNome(nome);
-        Tarefa tarefa = tarefaRepository.findTarefaByIdUrl(url.getId());
-        if (tarefa == null) {
-            tarefa = criarTarefa(url.getId());
-        }
-        List<ItemResponseDTO> itens = itemRepository.findItemsByTarefaId(tarefa.getId())
-                .stream()
-                .map(ItemResponseDTO::new)
-                .collect(Collectors.toList());
+        try {
+            Url url = urlRepository.findUrlByNome(nome);
+            Tarefa tarefa = tarefaRepository.findTarefaByIdUrl(url.getId());
+            if (tarefa == null) {
+                tarefa = criarTarefa(url.getId());
+            }
+            List<ItemResponseDTO> itens = itemRepository.findItemsByTarefaId(tarefa.getId())
+                    .stream()
+                    .map(ItemResponseDTO::new)
+                    .collect(Collectors.toList());
 
-        model.addAttribute("itens", itens);
-        model.addAttribute("tituloTarefa", tarefa.getTitulo());
-        model.addAttribute("id", tarefa.getId());
-        session.setAttribute("url", url);
-        return "tarefa";
+            model.addAttribute("itens", itens);
+            model.addAttribute("tituloTarefa", tarefa.getTitulo());
+            model.addAttribute("id", tarefa.getId());
+            session.setAttribute("url", url);
+            return "tarefa";
+        } catch (Exception e) {
+            return "redirect:/";
+        }
     }
 
     public Tarefa criarTarefa(Long idUrl) {
@@ -72,12 +75,4 @@ public class TarefaController {
 
         return "redirect:/tarefa/" + tarefa.getUrl().getNome();
     }
-
-    @GetMapping("/tarefa/**")
-    public String redirecionarTarefa(HttpServletRequest request) {
-        String path = request.getRequestURI().substring(request.getContextPath().length());
-        String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
-        return "redirect:" + baseUrl + path.replace("/tarefa", "");
-    }
-
 }
